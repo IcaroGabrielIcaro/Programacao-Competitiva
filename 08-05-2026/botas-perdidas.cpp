@@ -15,48 +15,40 @@ struct Sapato {
 int main(){
 
     int N;
-    cin >> N;
-
-    set<Sapato> sapatos;
-    int resultado = 0;
-    for (int i = 0; i < N; i++) {
-        char C;
-        int L;
-
-        cin >> L >> C;
-
-        auto encontrado = sapatos.lower_bound({L, 0, 0});
+    while (cin >> N) {
+        set<Sapato> sapatos;
+        int resultado = 0;
+        for (int i = 0; i < N; i++) {
+            char C;
+            int L;
     
-        if (encontrado != sapatos.end() && encontrado->tamanho == L) {
-            auto& temporario = encontrado;
-            sapatos.erase(encontrado);
-
-            if (C == 'E') {
-                sapatos.insert({temporario->tamanho, temporario->esquerdo + 1, temporario->direito});
-            } else {
-                sapatos.insert({temporario->tamanho, temporario->esquerdo, temporario->direito + 1});
-            }
-
-            auto encontrado2 = sapatos.lower_bound({L, 0, 0});
-
-            if (encontrado2 != sapatos.end()) {
-                if (encontrado2->esquerdo > 0 && encontrado2->direito > 0) {
-                    if (encontrado2->esquerdo > encontrado2->direito) {
-                        resultado
-                    } else {
-                        
-                    }
+            cin >> L >> C;
+    
+            auto encontrado = sapatos.lower_bound({L, 0, 0});
+        
+            if (encontrado != sapatos.end() && encontrado->tamanho == L) {
+                Sapato novoSapato = {encontrado->tamanho, encontrado-> esquerdo, encontrado->direito};
+                sapatos.erase(encontrado);
+    
+                (C == 'E') ? novoSapato.esquerdo++ : novoSapato.direito++;
+    
+                if (novoSapato.esquerdo != 0 && novoSapato.direito != 0) {
+                    resultado++;
+                    novoSapato.esquerdo--;
+                    novoSapato.direito--;
                 }
-            }
-            
-        } else {
-            if (C == 'E') {
-                sapatos.insert({L, 1, 0});
+    
+                sapatos.insert(novoSapato);
+                
             } else {
-                sapatos.insert({L, 0, 1});
+                sapatos.insert((C == 'E') ? Sapato{L, 1, 0} : Sapato{L, 0, 1});
             }
+        
         }
     
+        cout << resultado << endl;
     }
+
+    return 0;
     
 }
