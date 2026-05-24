@@ -4,17 +4,34 @@ using namespace std;
 
 int main() {
 
-    long long n;
+    int n;
     cin >> n;
 
-    vector<pair<long long, long long>> ns;
-    for (long long i = 0; i < n; i++) {
+    priority_queue<int, vector<int>, greater<int>> sais;
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> hs;
+    for (int i = 0; i < n; i++) {
         int a, b;
         cin >> a >> b;
 
-        pair<long long, long long> ab(a, b);
-        ns.push_back(ab);
+        hs.push({a, b});
     }
+
+    int pes = 0;
+    while (!hs.empty()) {
+        pair<int, int> top = hs.top();
+        hs.pop();
+
+        sais.push(top.second);
+
+        if (top.first > sais.top()) {
+            sais.pop();
+        } else {
+            pes++;
+        }
+    }
+
+    cout << pes << endl;
     
     return 0;
 

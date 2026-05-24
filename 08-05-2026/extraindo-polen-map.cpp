@@ -18,7 +18,7 @@ int main() {
     int N, K;
     cin >> N >> K;
 
-    vector<int> flores(10e6, 0);
+    map<int, int> flores;
     for (int i = 0; i < N; i++) {
         int F;
         cin >> F;
@@ -28,25 +28,23 @@ int main() {
 
     int contador = 0;
     int resultado = 0;
-    for (int i = 10e6 - 1; i > 0; i--) {
 
-        if (flores[i] == 0) {
-            continue;
-        }
+    auto fim = --flores.end();
+    do {
+        int soma = quebrar(fim->first, 0);
 
-        int soma = quebrar(i, 0);
+        if (contador + fim->second < K) {
+            contador += fim->second;
 
-        if (contador + flores[i] < K) {
-
-            contador += flores[i];
-
-            flores[i - soma] += flores[i];
-            flores[i] = 0;
+            flores[fim->first - soma] += fim->second;
+            flores[fim->first] = 0;
         } else {
             resultado = soma;
             break;
         }
-    } 
+
+        fim--;
+    } while (fim != --flores.begin());
 
     cout << resultado;
 
