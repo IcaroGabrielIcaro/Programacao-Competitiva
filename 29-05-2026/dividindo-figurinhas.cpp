@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int mdc(int a, int b) {
+long long mdc(long long a, long long b) {
     if (b == 0) {
         return a;
     }
@@ -12,21 +12,21 @@ int mdc(int a, int b) {
 
 int main() {
 
-    int N;
+    long long N;
     cin >> N;
 
-    vector<int> As(N);
-    for (int i = 0; i < N; i++) {
+    vector<long long> As(N);
+    for (long long i = 0; i < N; i++) {
         cin >> As[i];
     }
 
-    int m = As[0];
-    for (int i = 1; i < N; i++) {
+    long long m = As[0];
+    for (long long i = 1; i < N; i++) {
         m = mdc(m, As[i]);
     }
 
-    int res = 0;
-    for (int a : As) {
+    long long res = 0;
+    for (long long a : As) {
         res += a / m;
     }
 
