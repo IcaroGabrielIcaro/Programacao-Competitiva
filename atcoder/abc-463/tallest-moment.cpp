@@ -27,8 +27,9 @@ int main () {
         long long T;
         cin >> T;
 
-        int p = upper_bound(L.begin(), L.end(), T) - L.begin();
-        cout << M[p] << endl;
+        auto it = upper_bound(L.begin(), L.end(), T);
+        int dis = distance(L.begin(), it);
+        cout << M[dis] << endl;
     }
 
     return 0;
