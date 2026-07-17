@@ -2,32 +2,24 @@
 
 using namespace std;
 
-int N, S;
-vector<int> dados(4); // alterar para 100
-vector<int> memo(100009, 0);
 
 int main() {
-
+    
+    int N, S;
     cin >> N >> S;
-
+    
+    vector<int> dados(N);
     for (int i = 0; i < N; i++) {
         cin >> dados[i];
     }
+    
+    vector<int> memo(S + 9, 0);
+    memo[0] = 1;
 
     for (int dado : dados) {
-        for (int i = 1; i <= S; i++) { // alterar para 100009
-            cout << i << " " << dado << endl;
-            if (i - dado < 0) continue;
-            if (dado == i) {
-                memo[i]++;
-                cout << "achei eu mesmo: " << memo[i] << endl;
-            }
-            else if (memo[i - dado] > 0) {
-                memo[i]++;
-                cout << "achei um pra somar comigo: " << memo[i] << endl;
-            }
+        for (int i = S; i >= dado; i--) {
+            memo[i] += memo[i - dado];
         }
-        cout << endl;
     }
 
     cout << memo[S] << endl;
