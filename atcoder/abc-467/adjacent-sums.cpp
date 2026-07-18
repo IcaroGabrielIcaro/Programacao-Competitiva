@@ -7,34 +7,37 @@ int main() {
     int N, M;
     cin >> N >> M;
 
-    vector<int> As(N);
+    vector<int> As_1(N);
+    vector<int> As_2(N);
     for (int i = 0; i < N; i++) {
-        cin >> As[i];
+        int A;
+        cin >> A;
+        As_1[i] = A;
+        As_2[i] = A;
     }
 
     vector<int> Bs(N - 1);
-    for (int i = 0; i < N - 1; i++) {
-        cin >> Bs[i];
-    }
+    for (int i = 0; i < N - 1; i++) cin >> Bs[i];
 
-    int res = 0;
-    for (int i = 0; i < N - 1; i++) {
-        int A_atual = (As[i] + As[i + 1]) % M;
-        int B_atual = Bs[i];
-
-        int A_anterior;
-        int B_anterior;
-        if (i != 0) {
-            A_anterior = (As[i - 1] + As[i]) % M;
-            B_anterior = Bs[i - 1];
-        }
-
-        if (A_atual != B_atual) {
-            
+    int res_1 = 0;
+    for (int i = 1; i < N; i++) {
+        if ((As_1[i - 1] + As_1[i]) % M != Bs[i - 1]) {
+            As_1[i]++;
+            res_1++;
         }
     }
 
-    cout << res;
+    int res_2 = 0;
+    As_2[0]++;
+    res_2++;
+    for (int i = 1; i < N; i++) {
+        if ((As_2[i - 1] + As_2[i]) % M != Bs[i - 1]) {
+            As_2[i]++;
+            res_2++;
+        }
+    }
+
+    cout << min(res_1, res_2);
 
     return 0;
 
