@@ -3,25 +3,19 @@
 using namespace std;
 
 int n, c;
-vector<pair<int, double>> dados(100);
-vector<pair<int, double>> memo(100, {-1, -1});
+vector<pair<int, double>> valores(100);
+vector<vector<double>> memo(101, vector<double>(100001, -1));
 
-pair<int, double> dfs(int som, int index) {
-    if (som == c) return memo[index] = dados[index];
-    if (memo[index].first != -1) return memo[index];
+double dfs(int som, int index) {
+    if (index == n) return 0;
+    if (memo[index][som] != -1) return memo[index][som];
 
-    double valor = dados[index].second;
-    pair<int, double> var = dados[index];
-    for (int i = index; i < n; i++) {
-        
-        var = max(dfs(som + dados[i].first, i + 1), var);
-        
-        if (som + var.first <= c) {
-            valor += var.second;
-        }
-    }
+    double res = dfs(som, index + 1);
 
-    return memo[index] = valor;
+    if (som + valores[index].first <= c)
+        res = max(res, valores[index].second + dfs(som + valores[index].first, index + 1));
+
+    return memo[index][som] = res;
 }
 
 int main() {
@@ -32,7 +26,7 @@ int main() {
         int p; double v;
         cin >> p >> v;
 
-        dados[i] = {p, v};
+        valores[i] = {p, v};
     }
 
     cout << fixed << setprecision(2) << dfs(0, 0) << endl;
